@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Редактирование ответа{% endblock %}
+
+{% block content %}
+
+<h1>Редактирование ответа</h1>
+
+<section>
+    <form method="post">
+
+        <label for="question">Вопрос</label>
+        <input
+            id="question"
+            name="question"
+            value="{{ item.question }}"
+            required
+        >
+
+        <label for="answer">Ответ</label>
+        <textarea
+            id="answer"
+            name="answer"
+            rows="5"
+            required
+        >{{ item.answer }}</textarea>
+
+        <button type="submit" class="btn btn-edit">
+            Сохранить изменения
+        </button>
+
+        <a href="/admin" class="btn btn-add">
+            Назад
+        </a>
+    </form>
+</section>
+
+{% endblock %}

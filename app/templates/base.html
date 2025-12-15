@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Администрирование{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-page: #e9f0fb;
+            --bg-card: #ffffff;
+            --border: #4B5563;
+
+            --text-main: #213a50;
+            --text-secondary: #23303c;
+
+            --add: #3F8F6B;
+            --add-hover: #347A5A;
+
+            --edit: #3A6EA5;
+            --edit-hover: #2F5E8C;
+
+            --delete: #9B3A3A;
+            --delete-hover: #822F2F;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px;
+        }
+
+        h1 { font-size: 32px; margin-bottom: 30px; }
+        h2 { margin-bottom: 16px; color: #0b2545; }
+        h3 { margin-top: 24px; color: #0b2545; }
+
+        section {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            font-size: 14px;
+            background-color: #F9FAFB;
+            color: var(--text-main);
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--edit);
+            box-shadow: 0 0 0 2px rgba(58,110,165,0.15);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            color: #ffffff;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-add { background-color: var(--add); }
+        .btn-add:hover { background-color: var(--add-hover); }
+
+        .btn-edit { background-color: var(--edit); margin-right: 8px; }
+        .btn-edit:hover { background-color: var(--edit-hover); }
+
+        .btn-delete { background-color: var(--delete); }
+        .btn-delete:hover { background-color: var(--delete-hover); }
+
+        ul {
+            padding-left: 18px;
+            margin-top: 12px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 20px; }
+        }
+    </style>
+
+    <script>
+        function confirmDelete(event) {
+            if (!confirm("Удаление необратимо. Продолжить?")) {
+                event.preventDefault();
+            }
+        }
+    </script>
+</head>
+
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>

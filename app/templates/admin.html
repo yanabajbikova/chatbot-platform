@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Администрирование{% endblock %}
+
+{% block content %}
+
+<h1>Редактор сценариев чат-бота</h1>
+
+<section>
+    <h2>Категории</h2>
+    <form method="post" action="/admin/categories">
+        <input name="name" placeholder="Название категории" required>
+        <input name="description" placeholder="Описание">
+        <button class="btn btn-add">Добавить категорию</button>
+    </form>
+</section>
+
+<section>
+    <h2>База ответов</h2>
+    <form method="post" action="/admin/knowledge">
+        <input name="question" placeholder="Вопрос" required>
+        <textarea name="answer" rows="4" placeholder="Ответ" required></textarea>
+        <button class="btn btn-add">Добавить ответ</button>
+    </form>
+
+    <ul>
+        {% for item in knowledge %}
+        <li>
+            <strong>{{ item.question }}</strong><br>
+            <a href="/admin/knowledge/{{ item.id }}/edit" class="btn btn-edit">Редактировать</a>
+            <form method="post"
+                  action="/admin/knowledge/{{ item.id }}/delete"
+                  style="display:inline;">
+                <button class="btn btn-delete"
+                        onclick="confirmDelete(event)">Удалить</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+<section>
+    <h2>Сценарии (проблемы)</h2>
+
+    <form method="post" action="/admin/issues">
+        <input name="title" placeholder="Название сценария" required>
+
+        <select name="category_id" required>
+            <option value="">Категория</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}">
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="knowledge_id" required>
+            <option value="">Ответ из базы</option>
+            {% for item in knowledge %}
+                <option value="{{ item.id }}">
+                    {{ item.question }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button class="btn btn-add">Добавить сценарий</button>
+    </form>
+
+    <ul>
+        {% for issue in issues %}
+        <li>
+            <strong>{{ issue.title }}</strong><br>
+            Категория: {{ issue.category.name if issue.category }}<br>
+            Ответ: {{ issue.knowledge.question if issue.knowledge }}
+
+            <div style="margin-top:8px;">
+                <a href="/admin/issues/{{ issue.id }}/edit"
+                   class="btn btn-edit">Редактировать</a>
+
+                <form method="post"
+                      action="/admin/issues/{{ issue.id }}/delete"
+                      style="display:inline;">
+                    <button class="btn btn-delete"
+                            onclick="confirmDelete(event)">
+                        Удалить
+                    </button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

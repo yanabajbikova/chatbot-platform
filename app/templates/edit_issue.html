@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Редактирование проблемы{% endblock %}
+
+{% block content %}
+
+<h1>Редактирование проблемы</h1>
+
+<section>
+    <form method="post">
+
+        <label for="title">Название проблемы</label>
+        <input
+            id="title"
+            name="title"
+            value="{{ issue.title }}"
+            required
+        >
+
+        <label for="category">Категория</label>
+        <select id="category" name="category_id" required>
+            {% for category in categories %}
+                <option value="{{ category.id }}"
+                    {% if category.id == issue.category_id %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="knowledge">Связанный ответ</label>
+        <select id="knowledge" name="knowledge_id" required>
+            {% for item in knowledge %}
+                <option value="{{ item.id }}"
+                    {% if item.id == issue.knowledge_id %}selected{% endif %}>
+                    {{ item.question }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="btn btn-edit">
+            Сохранить изменения
+        </button>
+
+        <a href="/admin" class="btn btn-add">
+            Назад
+        </a>
+    </form>
+</section>
+
+{% endblock %}
