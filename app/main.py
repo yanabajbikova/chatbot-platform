@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()
 
 from app.database import get_db, engine
