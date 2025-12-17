@@ -20,7 +20,7 @@
 - Telegram Bot API
 - Docker / Docker Compose
 - Uvicorn
-- 
+  
 Клонирование репозитория: git clone https://github.com/yanabajbikova/chatbot-platform.git
 cd chatbot-platform
 
