@@ -16,7 +16,7 @@
 </section>
 
 <section>
-    <h2>База ответов</h2>
+    <h2>База знаний</h2>
     <form method="post" action="/admin/knowledge">
         <input name="question" placeholder="Вопрос" required>
         <textarea name="answer" rows="4" placeholder="Ответ" required></textarea>
@@ -54,7 +54,7 @@
         </select>
 
         <select name="knowledge_id" required>
-            <option value="">Ответ из базы</option>
+            <option value="">Связанный вопрос</option>
             {% for item in knowledge %}
                 <option value="{{ item.id }}">
                     {{ item.question }}
@@ -70,7 +70,7 @@
         <li>
             <strong>{{ issue.title }}</strong><br>
             Категория: {{ issue.category.name if issue.category }}<br>
-            Ответ: {{ issue.knowledge.question if issue.knowledge }}
+            Связанный вопрос: {{ issue.knowledge.question if issue.knowledge }}
 
             <div style="margin-top:8px;">
                 <a href="/admin/issues/{{ issue.id }}/edit"

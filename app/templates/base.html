@@ -9,6 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
+    
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
         :root {
             --bg-page: #e9f0fb;
             --bg-card: #ffffff;
@@ -32,12 +39,29 @@
             background-color: var(--bg-page);
             color: var(--text-main);
             margin: 0;
-            padding: 40px;
         }
 
-        h1 { font-size: 32px; margin-bottom: 30px; }
-        h2 { margin-bottom: 16px; color: #0b2545; }
-        h3 { margin-top: 24px; color: #0b2545; }
+        /* ===== КОНТЕЙНЕР ===== */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-bottom: 16px;
+            color: #0b2545;
+        }
+
+        h3 {
+            margin-top: 24px;
+            color: #0b2545;
+        }
 
         section {
             background-color: var(--bg-card);
@@ -47,7 +71,9 @@
             margin-bottom: 30px;
         }
 
-        input, textarea, select {
+        input,
+        textarea,
+        select {
             width: 100%;
             padding: 10px 12px;
             margin-bottom: 12px;
@@ -56,6 +82,7 @@
             font-size: 14px;
             background-color: #F9FAFB;
             color: var(--text-main);
+            font-family: inherit;
         }
 
         input:focus,
@@ -63,7 +90,7 @@
         select:focus {
             outline: none;
             border-color: var(--edit);
-            box-shadow: 0 0 0 2px rgba(58,110,165,0.15);
+            box-shadow: 0 0 0 2px rgba(58, 110, 165, 0.15);
         }
 
         .btn {
@@ -81,14 +108,30 @@
             transition: background-color 0.2s ease;
         }
 
-        .btn-add { background-color: var(--add); }
-        .btn-add:hover { background-color: var(--add-hover); }
+        .btn-add {
+            background-color: var(--add);
+        }
 
-        .btn-edit { background-color: var(--edit); margin-right: 8px; }
-        .btn-edit:hover { background-color: var(--edit-hover); }
+        .btn-add:hover {
+            background-color: var(--add-hover);
+        }
 
-        .btn-delete { background-color: var(--delete); }
-        .btn-delete:hover { background-color: var(--delete-hover); }
+        .btn-edit {
+            background-color: var(--edit);
+            margin-right: 8px;
+        }
+
+        .btn-edit:hover {
+            background-color: var(--edit-hover);
+        }
+
+        .btn-delete {
+            background-color: var(--delete);
+        }
+
+        .btn-delete:hover {
+            background-color: var(--delete-hover);
+        }
 
         ul {
             padding-left: 18px;
@@ -101,7 +144,13 @@
         }
 
         @media (max-width: 768px) {
-            body { padding: 20px; }
+            .container {
+                padding: 20px 14px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
         }
     </style>
 
@@ -115,6 +164,8 @@
 </head>
 
 <body>
-    {% block content %}{% endblock %}
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
 </body>
 </html>
