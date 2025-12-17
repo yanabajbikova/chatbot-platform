@@ -5,7 +5,6 @@ from datetime import datetime
 from app.database import Base
 
 
-
 class User(Base):
     __tablename__ = "users"
 
@@ -24,6 +23,9 @@ class KnowledgeBase(Base):
     answer = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+    # ОБРАТНАЯ СВЯЗЬ (без каскада — безопасно)
+    issues = relationship("Issue", back_populates="knowledge")
+
 
 class Intent(Base):
     __tablename__ = "intents"
@@ -40,9 +42,6 @@ class ChatLog(Base):
     user_message = Column(Text, nullable=False)
     bot_response = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-    
-    from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship
 
 
 class Category(Base):
@@ -52,14 +51,26 @@ class Category(Base):
     name = Column(String(100), nullable=False)
     description = Column(Text)
 
+    issues = relationship("Issue", back_populates="category")
+
 
 class Issue(Base):
     __tablename__ = "issues"
 
     id = Column(Integer, primary_key=True)
     title = Column(String(255), nullable=False)
-    category_id = Column(Integer, ForeignKey("categories.id"))
-    knowledge_id = Column(Integer, ForeignKey("knowledge_base.id"), nullable=True)
 
-    category = relationship("Category")
-    knowledge = relationship("KnowledgeBase")
+    category_id = Column(
+        Integer,
+        ForeignKey("categories.id"),
+        nullable=False
+    )
+
+    knowledge_id = Column(
+        Integer,
+        ForeignKey("knowledge_base.id"),
+        nullable=True
+    )
+
+    category = relationship("Category", back_populates="issues")
+    knowledge = relationship("KnowledgeBase", back_populates="issues")

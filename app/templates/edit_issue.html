@@ -28,14 +28,16 @@
         </select>
 
         <label for="knowledge">Связанный ответ</label>
-        <select id="knowledge" name="knowledge_id" required>
-            {% for item in knowledge %}
-                <option value="{{ item.id }}"
-                    {% if item.id == issue.knowledge_id %}selected{% endif %}>
-                    {{ item.question }}
-                </option>
-            {% endfor %}
-        </select>
+<select id="knowledge" name="knowledge_id">
+    <option value="">— не выбран —</option>
+    {% for item in knowledge %}
+        <option value="{{ item.id }}"
+            {% if item.id == issue.knowledge_id %}selected{% endif %}>
+            {{ item.question }}
+        </option>
+    {% endfor %}
+</select>
+
 
         <button type="submit" class="btn btn-edit">
             Сохранить изменения

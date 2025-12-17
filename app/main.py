@@ -8,6 +8,8 @@ from sqlalchemy import func
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
+from fastapi import HTTPException
+
 
 load_dotenv()
 
@@ -205,5 +207,115 @@ def admin_create_issue(
     db.commit()
     return RedirectResponse("/admin", status_code=303)
 
+@app.post("/admin/knowledge/{knowledge_id}/delete")
+def admin_delete_knowledge(
+    knowledge_id: int,
+    db: Session = Depends(get_db)
+):
+    knowledge = db.query(KnowledgeBase).filter(
+        KnowledgeBase.id == knowledge_id
+    ).first()
+
+    if not knowledge:
+        raise HTTPException(status_code=404, detail="Запись не найдена")
+
+    db.delete(knowledge)
+    db.commit()
+
+    return RedirectResponse("/admin", status_code=303)
+@app.post("/admin/issues/{issue_id}/delete")
+def admin_delete_issue(
+    issue_id: int,
+    db: Session = Depends(get_db)
+):
+    issue = db.query(Issue).filter(Issue.id == issue_id).first()
+
+    if not issue:
+        raise HTTPException(status_code=404, detail="Сценарий не найден")
+
+    db.delete(issue)
+    db.commit()
+
+    return RedirectResponse("/admin", status_code=303)
+@app.get("/admin/issues/{issue_id}/edit")
+def admin_edit_issue_page(
+    issue_id: int,
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    issue = db.query(Issue).filter(Issue.id == issue_id).first()
+
+    if not issue:
+        raise HTTPException(status_code=404, detail="Сценарий не найден")
+
+    return templates.TemplateResponse(
+        "edit_issue.html",
+        {
+            "request": request,
+            "issue": issue,
+            "categories": db.query(Category).all(),
+            "knowledge": db.query(KnowledgeBase).all()
+        }
+    )
+@app.post("/admin/issues/{issue_id}/edit")
+def admin_edit_issue_save(
+    issue_id: int,
+    title: str = Form(...),
+    category_id: int = Form(...),
+    knowledge_id: int = Form(None),
+    db: Session = Depends(get_db)
+):
+    issue = db.query(Issue).filter(Issue.id == issue_id).first()
+
+    if not issue:
+        raise HTTPException(status_code=404, detail="Сценарий не найден")
+
+    issue.title = title
+    issue.category_id = category_id
+    issue.knowledge_id = knowledge_id
+
+    db.commit()
+
+    return RedirectResponse("/admin", status_code=303)
+@app.get("/admin/knowledge/{knowledge_id}/edit")
+def admin_edit_knowledge_page(
+    knowledge_id: int,
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    knowledge = db.query(KnowledgeBase).filter(
+        KnowledgeBase.id == knowledge_id
+    ).first()
+
+    if not knowledge:
+        raise HTTPException(status_code=404, detail="Запись не найдена")
+
+    return templates.TemplateResponse(
+        "edit_knowledge.html",
+        {
+            "request": request,
+            "knowledge": knowledge
+        }
+    )
+@app.post("/admin/knowledge/{knowledge_id}/edit")
+def admin_edit_knowledge_save(
+    knowledge_id: int,
+    question: str = Form(...),
+    answer: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    knowledge = db.query(KnowledgeBase).filter(
+        KnowledgeBase.id == knowledge_id
+    ).first()
+
+    if not knowledge:
+        raise HTTPException(status_code=404, detail="Запись не найдена")
+
+    knowledge.question = question
+    knowledge.answer = answer
+
+    db.commit()
+
+    return RedirectResponse("/admin", status_code=303)
 
 Base.metadata.create_all(bind=engine)
