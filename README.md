@@ -42,6 +42,7 @@ CREATE DATABASE chatbot_platform;
 Запуск веб-сервера:
 uvicorn app.main:app --reload
 
+
 После запуска сервер будет доступен по адресу:
 API: http://localhost:8000
 ПАанель администрирования (веб-редактор): http://localhost:8000/admin
