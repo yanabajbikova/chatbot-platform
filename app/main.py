@@ -11,6 +11,7 @@ import os
 from fastapi import HTTPException
 
 
+
 load_dotenv()
 
 from app.database import get_db, engine
